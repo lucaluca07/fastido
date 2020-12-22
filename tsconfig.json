@@ -20,7 +20,12 @@
     "esModuleInterop": true,
     "allowSyntheticDefaultImports": true,
     "resolveJsonModule": true,
-    "allowJs": true
+    "allowJs": true,
+    "baseUrl": "./",
+    "paths": {
+      "@/*": ["src/renderer/*"],
+      "main/*": ["src/main/*"]
+    }
   },
   "exclude": [
     "test",

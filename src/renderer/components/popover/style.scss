@@ -1,0 +1,50 @@
+.popover {
+  background: #fff;
+  padding: 8px 16px;
+  font-size: 13px;
+  border-radius: 3px;
+  display: none;
+  border: 1px solid #ddd;
+  z-index: 999;
+  &[data-popover-visible] {
+    display: block;
+  }
+
+  .arrow,
+  .arrow::before {
+    position: absolute;
+    width: 8px;
+    height: 8px;
+    z-index: -1;
+  }
+
+  .arrow::before {
+    content: '';
+    transform: rotate(45deg) translateY(-1px);
+    background: #fff;
+    border-top: 1px solid #ddd;
+    border-left: 1px solid #ddd;
+  }
+
+  &[data-popper-placement^='top'] > .arrow {
+    bottom: -4px;
+    &::before {
+      border-top: none;
+      border-left: none;
+      border-bottom: 1px solid #ddd;
+      border-right: 1px solid #ddd;
+    }
+  }
+
+  &[data-popper-placement^='bottom'] > .arrow {
+    top: -4px;
+  }
+
+  &[data-popper-placement^='left'] > .arrow {
+    right: -4px;
+  }
+
+  &[data-popper-placement^='right'] > .arrow {
+    left: -4px;
+  }
+}

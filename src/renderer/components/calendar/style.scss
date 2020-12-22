@@ -1,0 +1,125 @@
+.calendar {
+  height: 100%;
+  display: flex;
+  flex-direction: column;
+  font-size: 14px;
+  &-header {
+    padding: 11px 16px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    &-left {
+      font-weight: bold;
+      cursor: pointer;
+    }
+    &-right {
+      .calendar-today {
+        margin: 0 8px;
+        padding: 4px;
+        border-radius: 2px;
+        cursor: pointer;
+        &:hover {
+          background: #fafafa;
+        }
+      }
+      .iconfont {
+        font-size: 14px;
+        padding: 4px;
+        cursor: pointer;
+        &:hover {
+          background: #fafafa;
+        }
+      }
+    }
+  }
+  &-main {
+    flex: 1;
+    padding: 8px 12px;
+    table {
+      width: 100%;
+      max-width: 100%;
+      height: 256px;
+      background-color: transparent;
+      border-collapse: collapse;
+      table-layout: fixed;
+    }
+    .calendar-column-header {
+      padding-right: 12px;
+      padding-bottom: 5px;
+      text-align: right;
+      &-inner {
+        font-weight: 400;
+        display: block;
+      }
+    }
+  }
+  &-date {
+    height: 116px;
+    margin: 0 4px;
+    padding: 4px 8px;
+    color: rgba(0, 0, 0, 0.65);
+    text-align: left;
+    border-top: 2px solid #e8e8e8;
+    transition: background 0.3s;
+    cursor: pointer;
+    &:hover {
+      .iconfont {
+        visibility: visible;
+      }
+    }
+  }
+  &-value {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    .iconfont {
+      visibility: hidden;
+    }
+  }
+  &-content {
+    margin-top: 8px;
+    height: 88px;
+    overflow-y: auto;
+  }
+  .prev-month &-value,
+  .next-month &-value {
+    color: rgba(0, 0, 0, 0.25);
+  }
+}
+
+.calendar-card {
+  .calendar-date {
+    height: 39px;
+    border-top: none;
+    padding: 0;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
+  .calendar-content {
+    display: none;
+  }
+  .calendar-value {
+    height: 24px;
+    width: 24px;
+    justify-content: center;
+    border-radius: 2px;
+    .iconfont {
+      display: none;
+    }
+    &:hover {
+      background: #fafafa;
+    }
+  }
+  .today {
+    .calendar-value {
+      border: 1px solid #3d3d3d;
+    }
+  }
+  .selected {
+    .calendar-value {
+      background-color: #3d3d3d;
+      color: #fff;
+    }
+  }
+}

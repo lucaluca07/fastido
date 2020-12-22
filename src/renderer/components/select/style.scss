@@ -1,0 +1,28 @@
+.select {
+  display: inline-block;
+  font-size: 14px;
+  padding: 2px 4px;
+  &-options {
+    margin: 0;
+    padding: 4px 0;
+    list-style: none;
+    max-height: 200px;
+    overflow-y: auto;
+    overflow: -moz-scrollbars-none;
+    &::-webkit-scrollbar {
+      width: 0 !important;
+    }
+  }
+
+  &-option {
+    padding: 6px 16px;
+    cursor: pointer;
+    &:hover:not(&-selected) {
+      background: #fafafa;
+    }
+    &-selected {
+      background: #3d3d3d;
+      color: #fff;
+    }
+  }
+}

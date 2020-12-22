@@ -9,6 +9,7 @@ import OptimizeCSSAssetsPlugin from 'optimize-css-assets-webpack-plugin';
 import { BundleAnalyzerPlugin } from 'webpack-bundle-analyzer';
 import { merge } from 'webpack-merge';
 import TerserPlugin from 'terser-webpack-plugin';
+import HtmlWebpackPlugin from 'html-webpack-plugin'
 import baseConfig from './webpack.config.base';
 import CheckNodeEnv from '../scripts/CheckNodeEnv';
 import DeleteSourceMaps from '../scripts/DeleteSourceMaps';
@@ -16,9 +17,12 @@ import DeleteSourceMaps from '../scripts/DeleteSourceMaps';
 CheckNodeEnv('production');
 DeleteSourceMaps();
 
-const devtoolsConfig = process.env.DEBUG_PROD === 'true' ? {
-  devtool: 'source-map'
-} : {};
+const devtoolsConfig =
+  process.env.DEBUG_PROD === 'true'
+    ? {
+        devtool: 'source-map',
+      }
+    : {};
 
 export default merge(baseConfig, {
   ...devtoolsConfig,
@@ -30,7 +34,7 @@ export default merge(baseConfig, {
   entry: [
     'core-js',
     'regenerator-runtime/runtime',
-    path.join(__dirname, '../../src/index.tsx'),
+    path.join(__dirname, '../../src/renderer/index.tsx'),
   ],
 
   output: {
@@ -179,20 +183,19 @@ export default merge(baseConfig, {
   },
 
   optimization: {
-    minimizer:
-      [
-          new TerserPlugin({
-            parallel: true,
-          }),
-          new OptimizeCSSAssetsPlugin({
-            cssProcessorOptions: {
-              map: {
-                inline: false,
-                annotation: true,
-              },
-            },
-          }),
-        ],
+    minimizer: [
+      new TerserPlugin({
+        parallel: true,
+      }),
+      new OptimizeCSSAssetsPlugin({
+        cssProcessorOptions: {
+          map: {
+            inline: false,
+            annotation: true,
+          },
+        },
+      }),
+    ],
   },
 
   plugins: [
@@ -213,7 +216,6 @@ export default merge(baseConfig, {
     new MiniCssExtractPlugin({
       filename: 'style.css',
     }),
-
     new BundleAnalyzerPlugin({
       analyzerMode:
         process.env.OPEN_ANALYZER === 'true' ? 'server' : 'disabled',
