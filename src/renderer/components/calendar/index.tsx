@@ -1,4 +1,4 @@
 import Calendar from './Calendar';
-import './style.less';
+import './style.global.scss';
 
 export default Calendar;

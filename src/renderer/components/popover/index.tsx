@@ -1,4 +1,4 @@
 import Popover from './Popover';
-import './style.less';
+import './style.global.scss';
 
 export default Popover;

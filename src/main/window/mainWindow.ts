@@ -41,8 +41,8 @@ const create = async () => {
       nodeIntegration: true,
     },
   });
-
-  mainWindow.loadURL(`file://${__dirname}/index.html`);
+  const htmlPath = path.join(__dirname, '../../');
+  mainWindow.loadURL(`file://${htmlPath}/index.html`);
 
   // @TODO: Use 'ready-to-show' event
   //        https://github.com/electron/electron/blob/master/docs/api/browser-window.md#using-ready-to-show-event

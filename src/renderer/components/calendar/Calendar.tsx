@@ -3,18 +3,18 @@ import dayjs from 'dayjs';
 import advancedFormat from 'dayjs/plugin/advancedFormat';
 import Icon from '@/components/icon';
 import classNames from 'classnames';
-import Select from '@/components/select';
 
 interface IProps {
   onChange?: (date: dayjs.Dayjs) => void;
   date?: dayjs.Dayjs | string | number;
   type?: 'card' | 'fullScreen';
+  theme?: 'dark' | 'light';
 }
 
 dayjs.extend(advancedFormat);
 
 const today = dayjs(Date.now());
-const weeks = ['一', '二', '三', '四', '五', '六', '日'];
+const weeks = ['周日', '周一', '周二', '周三', '周四', '周五', '周六'];
 const currentYear = today.get('year');
 const startYear = currentYear - 10;
 const endYear = currentYear + 9;
@@ -34,14 +34,14 @@ const getDays = (date: dayjs.Dayjs) => {
   const end = monthEnd.endOf('week');
   const length = end.diff(start, 'day');
   const weekList: dayjs.Dayjs[][] = [];
-  for (let i = 0; i <= length; i += 1) {
+  for (let i = 0; i <= length + 7; i += 1) {
     const index = Math.floor(i / 7);
-    weekList[index] = [...(weekList[index] || []), start.add(i + 1, 'day')];
+    weekList[index] = [...(weekList[index] || []), start.add(i, 'day')];
   }
   return weekList;
 };
 
-const Calendar: React.FC<IProps> = ({ date, type, onChange }) => {
+const Calendar: React.FC<IProps> = ({ date, type, theme, onChange }) => {
   const [current, setCurrent] = useState(
     dayjs.isDayjs(date) ? date : dayjs(date)
   );
@@ -60,23 +60,15 @@ const Calendar: React.FC<IProps> = ({ date, type, onChange }) => {
     [onChange]
   );
   return (
-    <div className={classNames('calendar', `calendar-${type}`)}>
+    <div
+      className={classNames('calendar', `calendar-${type}`, {
+        'calendar-dark': theme === 'dark',
+      })}
+    >
       <header className="calendar-header">
         <div className="calendar-header-left">
-          <Select
-            data={years}
-            value={String(current.get('year'))}
-            onChange={(value: string) =>
-              setCurrent(current.year(Number(value)))
-            }
-          />
-          <Select
-            data={months}
-            value={String(current.get('month') + 1)}
-            onChange={(value: string) =>
-              setCurrent(current.month(Number(value) - 1))
-            }
-          />
+          <span>{current.get('year')}年 </span>
+          <span>{current.get('month') + 1}月</span>
         </div>
         <div className="calendar-header-right">
           <Icon

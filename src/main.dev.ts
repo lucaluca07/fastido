@@ -4,7 +4,7 @@ import 'regenerator-runtime/runtime';
 import { app } from 'electron';
 import { autoUpdater } from 'electron-updater';
 import log from 'electron-log';
-import mainWindow from 'main/window/mainWindow';
+import mainWindow from './main/window/mainWindow';
 
 const { create: createMainWindow, show: showMainWindow } = mainWindow;
 

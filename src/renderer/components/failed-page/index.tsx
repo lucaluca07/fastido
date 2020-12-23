@@ -1,5 +1,4 @@
 import React from 'react';
-import './index.scss';
 
 const codeMsgMap = {
   default: '网络出错，轻触屏幕重新加载',

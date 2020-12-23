@@ -1,4 +1,4 @@
 import Select from './Select';
-import './style.less';
+import './style.global.scss';
 
 export default Select;
