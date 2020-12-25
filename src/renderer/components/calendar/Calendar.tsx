@@ -114,6 +114,8 @@ const Calendar: React.FC<IProps> = ({ date, type, theme, onChange }) => {
                       selected: selected && day.isSame(selected, 'day'),
                       'next-month': day.isAfter(current, 'month'),
                       'prev-month': day.isBefore(current, 'month'),
+                      'before-day': day.isBefore(current, 'day'),
+                      'after-day': day.isAfter(current, 'day'),
                     })}
                     key={day.toString()}
                   >
