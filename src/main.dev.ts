@@ -4,6 +4,8 @@ import 'regenerator-runtime/runtime';
 import { app } from 'electron';
 import { autoUpdater } from 'electron-updater';
 import log from 'electron-log';
+import { menubar } from 'menubar';
+import path from 'path';
 import mainWindow from './main/window/mainWindow';
 
 const { create: createMainWindow, show: showMainWindow } = mainWindow;
@@ -27,6 +29,22 @@ if (
 ) {
   require('electron-debug')();
 }
+
+const mb = menubar({
+  index: `file://${__dirname}/index.html`,
+  browserWindow: {
+    width: 400,
+    height: 680,
+    resizable: false,
+    webPreferences: {
+      nodeIntegration: true,
+    },
+  },
+});
+
+mb.on('ready', () => {
+  console.log(11111);
+});
 
 app.on('window-all-closed', () => {
   if (process.platform !== 'darwin') {
