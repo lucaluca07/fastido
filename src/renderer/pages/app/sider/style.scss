@@ -1,0 +1,13 @@
+.sider {
+  width: 300px;
+  color: #fff;
+}
+
+.menu-item {
+  display: flex;
+  align-items: center;
+  .iconfont {
+    margin-right: 8px;
+    font-size: 14px;
+  }
+}

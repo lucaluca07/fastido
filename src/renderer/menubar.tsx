@@ -1,6 +1,6 @@
 import React from 'react';
 import { render } from 'react-dom';
-import App from '@/pages/app';
+import Menubar from './pages/menubar';
 import './index.global.css';
 
-render(<App />, document.getElementById('root'));
+render(<Menubar />, document.getElementById('root'));

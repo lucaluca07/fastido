@@ -5,7 +5,6 @@ import { app } from 'electron';
 import { autoUpdater } from 'electron-updater';
 import log from 'electron-log';
 import { menubar } from 'menubar';
-import path from 'path';
 import mainWindow from './main/window/mainWindow';
 
 const { create: createMainWindow, show: showMainWindow } = mainWindow;
@@ -31,9 +30,9 @@ if (
 }
 
 const mb = menubar({
-  index: `file://${__dirname}/index.html`,
+  index: `file://${__dirname}/menubar.html`,
   browserWindow: {
-    width: 400,
+    width: 300,
     height: 680,
     resizable: false,
     webPreferences: {

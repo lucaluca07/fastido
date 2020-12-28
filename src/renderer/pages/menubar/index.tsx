@@ -2,12 +2,12 @@ import React from 'react';
 import Calendar from '@/components/calendar';
 import styles from './style.scss';
 
-const Sider = () => {
+const Menubar = () => {
   return (
-    <div className={styles.sider}>
-      <Calendar theme="dark" type="card" />
+    <div className={styles.menubar}>
+      <Calendar type="card" theme="dark" />
     </div>
   );
 };
 
-export default Sider;
+export default Menubar;

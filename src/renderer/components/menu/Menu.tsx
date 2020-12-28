@@ -7,6 +7,8 @@ interface IProps {
   openKeys?: string[];
   defaultSelectedKeys?: string[];
   defaultOpenKeys?: string[];
+  theme?: 'light' | 'dark';
+  style?: React.CSSProperties;
   onSelectedKeysChange?: (selectedKeys: string[]) => void;
   onOpenKeysChange?: (openKeys: string[]) => void;
 }
@@ -17,6 +19,8 @@ const Menu: React.FC<IProps> = ({
   openKeys,
   defaultSelectedKeys = [],
   defaultOpenKeys = [],
+  theme,
+  style,
   onSelectedKeysChange,
   onOpenKeysChange,
 }) => {
@@ -40,12 +44,17 @@ const Menu: React.FC<IProps> = ({
   }, [state.selectedKeys]);
 
   useEffect(() => {
-    onOpenKeysChange?.(state.selectedKeys);
+    onOpenKeysChange?.(state.openKeys);
   }, [state.openKeys]);
 
   return (
     <MenuContext.Provider value={{ state, dispatch }}>
-      <ul className={classNames('menu')}>{children}</ul>
+      <ul
+        style={style}
+        className={classNames('menu', { [`menu-${theme}`]: theme })}
+      >
+        {children}
+      </ul>
     </MenuContext.Provider>
   );
 };

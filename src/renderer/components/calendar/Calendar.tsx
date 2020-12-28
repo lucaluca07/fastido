@@ -29,12 +29,12 @@ const months = Array(12)
 
 const getDays = (date: dayjs.Dayjs) => {
   const monthStart: dayjs.Dayjs = date.startOf('month');
-  const monthEnd: dayjs.Dayjs = date.endOf('month');
+  // const monthEnd: dayjs.Dayjs = date.endOf('month');
   const start = monthStart.startOf('week');
-  const end = monthEnd.endOf('week');
-  const length = end.diff(start, 'day');
+  // const end = monthEnd.endOf('week');
+  // const length = end.diff(start, 'day');
   const weekList: dayjs.Dayjs[][] = [];
-  for (let i = 0; i <= length + 7; i += 1) {
+  for (let i = 0; i < 42; i += 1) {
     const index = Math.floor(i / 7);
     weekList[index] = [...(weekList[index] || []), start.add(i, 'day')];
   }
@@ -114,8 +114,8 @@ const Calendar: React.FC<IProps> = ({ date, type, theme, onChange }) => {
                       selected: selected && day.isSame(selected, 'day'),
                       'next-month': day.isAfter(current, 'month'),
                       'prev-month': day.isBefore(current, 'month'),
-                      'before-day': day.isBefore(current, 'day'),
-                      'after-day': day.isAfter(current, 'day'),
+                      'before-day': day.isBefore(today, 'date'),
+                      'after-day': day.isAfter(today, 'date'),
                     })}
                     key={day.toString()}
                   >

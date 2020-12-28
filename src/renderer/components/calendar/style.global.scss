@@ -1,7 +1,6 @@
 @import '../../styles/color.scss';
 
 .calendar {
-  height: 100%;
   display: flex;
   flex-direction: column;
   font-size: 14px;
@@ -93,6 +92,19 @@
 
 .calendar-dark {
   color: $white;
+  .calendar-header {
+    .calendar-header-left {
+      color: $highlight-color;
+    }
+    .calendar-header-right {
+      color: $dark-text-color-secondary;
+    }
+    .calendar-today:hover,
+    .iconfont:hover {
+      color: $white;
+      background: none;
+    }
+  }
   .calendar-date {
     height: 116px;
     margin: 0 4px;
@@ -118,6 +130,13 @@
 .calendar-card {
   .calendar-header {
     padding-bottom: 0;
+    &-right {
+      color: $text-color-secondary;
+      font-weight: bold;
+      .calendar-today {
+        margin: 0;
+      }
+    }
   }
   table {
     height: 175px;
@@ -142,6 +161,7 @@
   .calendar-content {
     display: none;
   }
+
   .calendar-value {
     height: 25px;
     line-height: 25px;

@@ -31,16 +31,23 @@ export default merge(baseConfig, {
 
   target: 'electron-renderer',
 
-  entry: [
-    'core-js',
-    'regenerator-runtime/runtime',
-    path.join(__dirname, '../../src/renderer/index.tsx'),
-  ],
+  entry: {
+    index: [
+      'core-js',
+      'regenerator-runtime/runtime',
+      path.join(__dirname, '../../src/renderer/index.tsx'),
+    ],
+    menubar: [
+      'core-js',
+      'regenerator-runtime/runtime',
+      path.join(__dirname, '../../src/renderer/menubar.tsx'),
+    ]
+  },
 
   output: {
     path: path.join(__dirname, '../../src/dist'),
     publicPath: './dist/',
-    filename: 'renderer.prod.js',
+    filename: 'renderer.[name].prod.js',
   },
 
   module: {
