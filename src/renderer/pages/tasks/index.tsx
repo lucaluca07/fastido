@@ -1,11 +1,12 @@
 import * as React from 'react';
+import Editor from '@/components/editor';
 
 const Tasks: React.FC = () => {
   return (
     <div className="tasks">
       <header>Header</header>
       <main>
-        <input type="text" placeholder="新增任务" />
+        <Editor />
         <div>
           未完成
           <ul>

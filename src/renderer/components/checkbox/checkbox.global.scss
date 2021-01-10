@@ -1,0 +1,34 @@
+.t-checkbox {
+  .t-input {
+    display: none;
+  }
+
+  .t-checkbox-inner {
+    font-size: 12px;
+    margin-right: 5px;
+  }
+
+  .t-checkbox-checked {
+    .t-checkbox-inner {
+      color: #999;
+    }
+
+    &:hover {
+      .t-checkbox-inner {
+        color: #999;
+      }
+    }
+  }
+
+  .t-checkbox-disabled.t-checkbox-inner {
+    color: #eee;
+  }
+}
+
+.t-checkbox:not(.t-checkbox-disabled) {
+  &:hover {
+    .t-checkbox-inner {
+      color: red;
+    }
+  }
+}
