@@ -1,3 +1,4 @@
-import CheckBox from './CheckBox';
+import Checkbox from './Checkbox';
+import './style.less';
 
-export default CheckBox;
+export default Checkbox;

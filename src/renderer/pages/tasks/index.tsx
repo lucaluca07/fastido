@@ -1,29 +1,17 @@
-import * as React from 'react';
-import Editor from '@/components/editor';
+import Input from '@/components/input';
+import React from 'react';
+import styles from './style.scss';
 
 const Tasks: React.FC = () => {
   return (
-    <div className="tasks">
-      <header>Header</header>
-      <main>
-        <Editor />
-        <div>
-          未完成
-          <ul>
-            <li>1</li>
-            <li>1</li>
-            <li>1</li>
-          </ul>
+    <div className={styles.tasks}>
+      <div className={styles.content}>
+        <header className={styles.header}>Header</header>
+        <div className={styles['task-list']}>
+          <Input />
         </div>
-        <div>
-          已完成
-          <ul>
-            <li>1</li>
-            <li>1</li>
-            <li>1</li>
-          </ul>
-        </div>
-      </main>
+      </div>
+      <div className={styles['task-detail']}>right</div>
     </div>
   );
 };
