@@ -1,4 +1,4 @@
 import Checkbox from './Checkbox';
-import './style.less';
+import './style.global.scss';
 
 export default Checkbox;

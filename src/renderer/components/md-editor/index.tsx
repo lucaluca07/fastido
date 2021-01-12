@@ -2,7 +2,6 @@ import React, { createRef } from 'react';
 import cx from 'classnames';
 import Quill from 'quill';
 import './index.global.scss';
-import Icon from '../icon';
 
 interface Props {
   task?: string;
@@ -31,35 +30,26 @@ class Input extends React.Component<Props, State> {
     this.initQuill();
   }
 
-  focus = () => {
-    this.quill?.focus();
-  };
-
-  blur = () => {
-    this.quill?.blur();
-  };
-
   initQuill = () => {
     if (!this.editorRef.current) return;
-    const bindings = {
-      enter: {
-        key: 13,
-        handler: () => {
-          const { onEnter } = this.props;
-          const text = this.quill?.getText();
-          console.log('enter pressed', text);
-          if (!text) return;
-          onEnter?.({ text });
-          this.quill?.deleteText(0, text.length);
-        },
-      },
-    };
+    // const bindings = {
+    //   enter: {
+    //     key: 13,
+    //     handler: () => {
+    //       const { onEnter } = this.props;
+    //       const text = this.quill?.getText();
+    //       if (!text) return;
+    //       onEnter?.({ text });
+    //       this.quill?.deleteText(0, text.length);
+    //     },
+    //   },
+    // };
     const { placeholder } = this.props;
     const quill = new Quill(this.editorRef.current, {
       placeholder,
       modules: {
         toolbar: false, // Snow includes toolbar by default
-        keyboard: { bindings },
+        // keyboard: { bindings },
       },
       theme: 'snow',
     });
@@ -86,8 +76,8 @@ class Input extends React.Component<Props, State> {
     const { editing } = this.state;
     const { className } = this.props;
     return (
-      <div className={cx('input', className)}>
-        <div className="task-input" ref={this.editorRef} />
+      <div className={cx('md-editor', className)}>
+        <div className="md-editor-inner" ref={this.editorRef} />
       </div>
     );
   }

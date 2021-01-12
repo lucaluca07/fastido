@@ -17,23 +17,6 @@ if (process.env.NODE_ENV === 'production') {
 
 const port = process.env.PORT || 1212;
 const publicPath = `http://localhost:${port}/dist`;
-const dllDir = path.join(__dirname, '../dll');
-const manifest = path.resolve(dllDir, 'renderer.json');
-const requiredByDLLConfig = module.parent.filename.includes(
-  'webpack.config.renderer.dev.dll'
-);
-
-/**
- * Warn if the DLL is not built
- */
-if (!requiredByDLLConfig && !(fs.existsSync(dllDir) && fs.existsSync(manifest))) {
-  console.log(
-    chalk.black.bgYellow.bold(
-      'The DLL files are missing. Sit back while we build them for you with "yarn build-dll"'
-    )
-  );
-  execSync('yarn build-dll');
-}
 
 export default merge(baseConfig, {
   devtool: 'inline-source-map',
@@ -208,15 +191,6 @@ export default merge(baseConfig, {
     ],
   },
   plugins: [
-
-    requiredByDLLConfig
-      ? null
-      : new webpack.DllReferencePlugin({
-          context: path.join(__dirname, '../dll'),
-          manifest: require(manifest),
-          sourceType: 'var',
-        }),
-
     new webpack.NoEmitOnErrorsPlugin(),
 
     /**

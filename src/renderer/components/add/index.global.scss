@@ -1,0 +1,22 @@
+.common-add-task {
+  height: 36px;
+  width: 36px;
+  border-radius: 50%;
+  background-color: #ea445a;
+  position: fixed;
+  bottom: 18px;
+  right: 18px;
+  text-align: center;
+  line-height: 36px;
+  color: #fff;
+  font-weight: bold;
+  box-shadow: 2px 0 8px 0 rgba(29, 35, 41, 0.05);
+  border: none;
+  &:active {
+    transform: scale(0.9);
+    opacity: 0.9;
+  }
+  .iconfont {
+    font-size: 20px;
+  }
+}

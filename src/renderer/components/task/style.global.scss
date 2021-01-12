@@ -1,0 +1,74 @@
+@import '../../styles/color.scss';
+
+.task {
+  list-style: none;
+  position: relative;
+  margin: 0 16px;
+  border-radius: 4px;
+  height: 33px;
+  transition: all 1s ease-out;
+  &:not(.task-selected):hover {
+    background-color: #fafafa;
+  }
+  &-details {
+    font-size: 14px;
+    line-height: 21px;
+    padding: 0 8px;
+    &-inner {
+      padding: 6px 0;
+      display: flex;
+      align-items: center;
+    }
+    .input {
+      flex: 1;
+    }
+
+    .md-editor {
+      margin-left: 14px;
+    }
+  }
+
+  &-drag {
+    position: absolute;
+    height: 14px;
+    width: 14px;
+    left: -14px;
+    top: 50%;
+    transform: translateY(-50%);
+    cursor: move;
+    .iconfont {
+      display: none;
+      font-size: 12px;
+      color: $text-color-quartus;
+    }
+  }
+  &-title {
+    margin-left: 8px;
+  }
+  &:not(.task-editing):hover {
+    .task-drag .iconfont {
+      display: block;
+    }
+  }
+  &-selected {
+    background: #eee;
+  }
+  &-editing {
+    background: #fff;
+    margin: 12px 16px 16px;
+    box-shadow: 4px 0 16px 0 rgba(29, 35, 41, 0.1);
+    padding-bottom: 16px;
+  }
+
+  &-footer {
+    display: flex;
+    margin-left: 22px;
+  }
+  .task-mask {
+    position: absolute;
+    top: 0;
+    bottom: 0;
+    left: 0;
+    right: 0;
+  }
+}

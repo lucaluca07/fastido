@@ -1,9 +1,9 @@
 @import '~quill/dist/quill.snow.css';
 @import '../../styles/color.scss';
 
-.input {
-  height: 34px;
-  line-height: 34px;
+.md-editor {
+  min-height: 64px;
+  line-height: 1.5;
   background: transparent;
   padding: 0 8px;
   border: none;

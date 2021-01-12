@@ -1,9 +1,8 @@
 .tasks {
   height: 100%;
   display: flex;
-  .content {
-    flex: 0 0 55.5%;
-  }
+  flex-direction: column;
+  position: relative;
 
   .header {
     font-size: 24px;
@@ -12,13 +11,33 @@
     line-height: 60px;
   }
 
-  .task-list {
-    padding: 0 16px;
+  .input {
+    margin: 0 16px;
   }
 
   .task-detail {
     flex: 0 0 44.5%;
     border-left: 1px solid #eee;
     height: 100%;
+    display: flex;
+    flex-direction: column;
+    &-header {
+      flex: 0 0 60px;
+      padding: 24px 16px 0;
+      border-bottom: 1px solid #eee;
+      display: flex;
+      align-items: center;
+      .checkbox {
+        margin-right: 24px;
+      }
+    }
+    &-main {
+      flex: 1;
+      padding: 16px;
+    }
+    &-footer {
+      flex: 0 0 50px;
+      padding: 0 16px;
+    }
   }
 }
