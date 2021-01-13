@@ -1,7 +1,12 @@
 import React, { useMemo } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { RootState } from '@/reducer';
-import { addTask, updateSelectedId } from '@/reducer/tasks';
+import {
+  addTask,
+  TaskUpdatePayload,
+  updateSelectedId,
+  updateTask,
+} from '@/reducer/tasks';
 import TasksComponent from '@/components/tasks';
 import AddButton from '@/components/add';
 import styles from './style.scss';
@@ -21,7 +26,9 @@ const Tasks: React.FC = () => {
         tasks={tasks}
         selectedKey={selectedId}
         editingId={editingId}
-        updateTaskStatus={() => {}}
+        updateTask={(rest: TaskUpdatePayload) => {
+          dispatch(updateTask(rest));
+        }}
         onClick={(id) => {
           dispatch(updateSelectedId(id));
         }}

@@ -17,6 +17,17 @@ export interface TaskState {
   editingId: string;
 }
 
+export interface TaskUpdatePayload {
+  id: string;
+  title?: string;
+  projectId?: string;
+  completed?: boolean;
+  deleted?: boolean;
+  date?: number;
+  tags?: string[];
+  content?: string;
+}
+
 const initialState: TaskState = {
   selectedId: '',
   editingId: '',
@@ -45,7 +56,7 @@ const tasksSlice = createSlice({
         deleted: false,
       });
     },
-    updateTask(state, action) {
+    updateTask(state, action: PayloadAction<TaskUpdatePayload>) {
       const { id, ...rest } = action.payload;
       const index = state.tasks.findIndex((task) => task.id === id);
       if (index > -1) {
@@ -58,6 +69,11 @@ const tasksSlice = createSlice({
       if (task) {
         task.deleted = true;
       }
+    },
+    // 彻底删除
+    removeTask(state, action) {
+      const tasks = state.tasks.filter((item) => item.id === action.payload);
+      state.tasks = tasks;
     },
     updateSelectedId(state, action: PayloadAction<string>) {
       state.selectedId = action.payload;
