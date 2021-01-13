@@ -2,28 +2,23 @@ import React, { createRef } from 'react';
 import cx from 'classnames';
 import Quill from 'quill';
 import './index.global.scss';
-import Icon from '../icon';
 
 interface Props {
   task?: string;
   placeholder?: string;
   className?: string;
-  onEnter?: ({ text }: { text: string }) => void;
+  initText?: string;
+  autoFocus?: boolean;
+  onEnter?: () => void;
 }
 
-interface State {
-  editing: boolean;
-}
-class Input extends React.Component<Props, State> {
+class Input extends React.Component<Props> {
   editorRef: React.RefObject<HTMLDivElement>;
 
   quill?: Quill;
 
   constructor(props: Props) {
     super(props);
-    this.state = {
-      editing: false,
-    };
     this.editorRef = createRef();
   }
 
@@ -40,16 +35,16 @@ class Input extends React.Component<Props, State> {
   };
 
   initQuill = () => {
+    const { initText, autoFocus } = this.props;
     if (!this.editorRef.current) return;
     const bindings = {
       enter: {
         key: 13,
         handler: () => {
           const { onEnter } = this.props;
+          onEnter?.();
           const text = this.quill?.getText();
-          console.log('enter pressed', text);
           if (!text) return;
-          onEnter?.({ text });
           this.quill?.deleteText(0, text.length);
         },
       },
@@ -64,26 +59,24 @@ class Input extends React.Component<Props, State> {
       theme: 'snow',
     });
 
-    this.quill = quill;
+    if (autoFocus) {
+      quill.focus();
+    }
 
-    quill.on('selection-change', (range) => {
-      if (range) {
-        this.setState({ editing: true });
-        if (range.length === 0) {
-          // console.log('User cursor is on', range.index);
-        } else {
-          // const text = quill.getText(range.index, range.length);
-          // console.log('User has highlighted', text);
-        }
-      } else {
-        this.setState({ editing: false });
-        // console.log('Cursor not in the editor');
-      }
-    });
+    if (initText) {
+      quill.insertText(0, initText);
+    }
+
+    this.quill = quill;
+  };
+
+  getText = () => {
+    const length = this.quill?.getLength();
+    const text = this.quill?.getText(0, length);
+    return text;
   };
 
   render() {
-    const { editing } = this.state;
     const { className } = this.props;
     return (
       <div className={cx('input', className)}>

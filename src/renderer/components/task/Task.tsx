@@ -6,6 +6,7 @@ import Checkbox from '@/components/checkbox';
 import Input from '@/components/input';
 import MDEditor from '@/components/md-editor';
 import { TaskUpdatePayload } from '@/reducer/tasks';
+import Icon from '../icon';
 
 interface IProps {
   id: string;
@@ -33,7 +34,6 @@ const Task: React.FC<IProps> = ({
   const [editing, setEditing] = useState(defaultEditing);
 
   useEffect(() => {
-    inputRef.current?.focus();
     const taskNode = liRef.current;
     if (!taskNode) return;
     const { height: prevHeight } = taskNode.getBoundingClientRect();
@@ -52,29 +52,20 @@ const Task: React.FC<IProps> = ({
         setTimeout(() => {
           setEditing(false);
         }, 100);
-
-        onSave?.();
+        const text = inputRef.current?.getText() || '';
+        updateTask({ id, title: text });
       }
     };
     window.addEventListener('click', handleClick, false);
     return () => window.removeEventListener('click', handleClick);
-  }, [editing, onSave]);
-
-  useEffect(() => {
-    if (!selected) return () => {};
-    const handleClick = (e: MouseEvent) => {
-      const node = e.target;
-      if (!(liRef.current === node || liRef.current?.contains(node as Node))) {
-        onClick?.('');
-      }
-    };
-    window.addEventListener('click', handleClick, true);
-    return () => window.removeEventListener('click', handleClick);
-  }, [onClick, selected]);
+  }, [editing, id, onSave, updateTask]);
 
   return (
     <li
-      onClick={() => {
+      onClick={(e) => {
+        const node = e.target as Node;
+        const checkbox = liRef.current?.querySelector('.checkbox');
+        if (checkbox === node || checkbox?.contains(node)) return;
         onClick(id);
       }}
       onDoubleClick={() => {
@@ -91,18 +82,32 @@ const Task: React.FC<IProps> = ({
       }}
     >
       <div className="task-drag">
-        <i className="iconfont icon-drag" />
+        <Icon type="drag" />
       </div>
       <div className="task-details">
         <div className="task-details-inner">
           <Checkbox
             checked={completed}
+            onClick={(e) => {
+              e.stopPropagation();
+              e.preventDefault();
+            }}
             onChange={(c) => {
               updateTask?.({ id, completed: c });
             }}
           />
           {editing ? (
-            <Input ref={inputRef} placeholder="新建待办事项" />
+            <Input
+              ref={inputRef}
+              initText={title}
+              autoFocus
+              onEnter={() => {
+                const text = inputRef.current?.getText() || '';
+                updateTask({ id, title: text });
+                setEditing(false);
+              }}
+              placeholder="新建待办事项"
+            />
           ) : (
             <span className="task-title">{title}</span>
           )}
@@ -110,10 +115,12 @@ const Task: React.FC<IProps> = ({
         {editing && <MDEditor placeholder="备注" />}
         {editing && (
           <div className="task-footer">
-            <div>今天</div>
-            项目
-            <div>tag</div>
-            <div>截止时间</div>
+            <div>left</div>
+            <div>
+              <Icon type="calendar" />
+              <Icon type="tag" />
+              <Icon type="time" />
+            </div>
           </div>
         )}
       </div>
