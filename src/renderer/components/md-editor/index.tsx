@@ -7,22 +7,16 @@ interface Props {
   task?: string;
   placeholder?: string;
   className?: string;
-  onEnter?: ({ text }: { text: string }) => void;
+  initContents?: any;
 }
 
-interface State {
-  editing: boolean;
-}
-class Input extends React.Component<Props, State> {
+class Input extends React.Component<Props> {
   editorRef: React.RefObject<HTMLDivElement>;
 
   quill?: Quill;
 
   constructor(props: Props) {
     super(props);
-    this.state = {
-      editing: false,
-    };
     this.editorRef = createRef();
   }
 
@@ -31,19 +25,8 @@ class Input extends React.Component<Props, State> {
   }
 
   initQuill = () => {
+    const { initContents } = this.props;
     if (!this.editorRef.current) return;
-    // const bindings = {
-    //   enter: {
-    //     key: 13,
-    //     handler: () => {
-    //       const { onEnter } = this.props;
-    //       const text = this.quill?.getText();
-    //       if (!text) return;
-    //       onEnter?.({ text });
-    //       this.quill?.deleteText(0, text.length);
-    //     },
-    //   },
-    // };
     const { placeholder } = this.props;
     const quill = new Quill(this.editorRef.current, {
       placeholder,
@@ -54,26 +37,20 @@ class Input extends React.Component<Props, State> {
       theme: 'snow',
     });
 
-    this.quill = quill;
+    if (initContents) {
+      quill.setContents(initContents);
+    }
 
-    quill.on('selection-change', (range) => {
-      if (range) {
-        this.setState({ editing: true });
-        if (range.length === 0) {
-          // console.log('User cursor is on', range.index);
-        } else {
-          // const text = quill.getText(range.index, range.length);
-          // console.log('User has highlighted', text);
-        }
-      } else {
-        this.setState({ editing: false });
-        // console.log('Cursor not in the editor');
-      }
-    });
+    this.quill = quill;
+  };
+
+  getContents = () => {
+    const len = this.quill?.getLength() ?? 0;
+    const contents = this.quill?.getContents(0, len);
+    return JSON.parse(JSON.stringify(contents)) as any;
   };
 
   render() {
-    const { editing } = this.state;
     const { className } = this.props;
     return (
       <div className={cx('md-editor', className)}>

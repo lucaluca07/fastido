@@ -1,10 +1,10 @@
 import React from 'react';
 import classNames from 'classnames';
-import { TaskUpdatePayload } from '@/reducer/tasks';
+import { BaseTask, TaskUpdatePayload } from '@/reducer/tasks';
 import Task from '../task';
 
 interface IProps {
-  tasks: { id: string; title: string; completed: boolean }[];
+  tasks: BaseTask[];
   selectedKey?: string;
   editingId?: string;
   updateTask: (params: TaskUpdatePayload) => void;
@@ -26,7 +26,7 @@ const Tasks: React.FC<IProps> = ({
           selected={selectedKey === String(task.id)}
           defaultEditing={editingId === String(task.id)}
           updateTask={updateTask}
-          {...task}
+          task={task}
         />
       ))}
     </ul>

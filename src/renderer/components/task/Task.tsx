@@ -5,13 +5,11 @@ import classNames from 'classnames';
 import Checkbox from '@/components/checkbox';
 import Input from '@/components/input';
 import MDEditor from '@/components/md-editor';
-import { TaskUpdatePayload } from '@/reducer/tasks';
+import { BaseTask, TaskUpdatePayload } from '@/reducer/tasks';
 import Icon from '../icon';
 
 interface IProps {
-  id: string;
-  title: string;
-  completed: boolean;
+  task: BaseTask;
   selected: boolean;
   defaultEditing: boolean;
   onSave?: () => void;
@@ -20,17 +18,17 @@ interface IProps {
 }
 
 const Task: React.FC<IProps> = ({
-  id,
-  title,
-  completed,
+  task,
   updateTask,
   onClick,
   onSave,
   selected,
   defaultEditing = false,
 }) => {
+  const { id, title, completed, content } = task;
   const liRef = useRef<HTMLLIElement>(null);
   const inputRef = useRef<Input>(null);
+  const mdRef = useRef<MDEditor>(null);
   const [editing, setEditing] = useState(defaultEditing);
 
   useEffect(() => {
@@ -53,7 +51,9 @@ const Task: React.FC<IProps> = ({
           setEditing(false);
         }, 100);
         const text = inputRef.current?.getText() || '';
-        updateTask({ id, title: text });
+        const contents = mdRef.current?.getContents();
+        console.log(22222, contents);
+        updateTask({ id, title: text, content: contents });
       }
     };
     window.addEventListener('click', handleClick, false);
@@ -112,7 +112,9 @@ const Task: React.FC<IProps> = ({
             <span className="task-title">{title}</span>
           )}
         </div>
-        {editing && <MDEditor placeholder="备注" />}
+        {editing && (
+          <MDEditor ref={mdRef} initContents={content} placeholder="备注" />
+        )}
         {editing && (
           <div className="task-footer">
             <div>left</div>

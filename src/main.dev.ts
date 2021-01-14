@@ -29,29 +29,35 @@ if (
   require('electron-debug')();
 }
 
-const mb = menubar({
-  index: `file://${__dirname}/menubar.html`,
-  browserWindow: {
-    width: 300,
-    height: 680,
-    resizable: false,
-    webPreferences: {
-      nodeIntegration: true,
-    },
-  },
-});
-
-mb.on('ready', () => {
-  console.log(11111);
-});
-
 app.on('window-all-closed', () => {
   if (process.platform !== 'darwin') {
     app.quit();
   }
 });
 
-app.whenReady().then(createMainWindow).catch(console.log);
+app
+  .whenReady()
+  .then(() => {
+    createMainWindow();
+    const mb = menubar({
+      index: `file://${__dirname}/menubar.html`,
+      browserWindow: {
+        width: 300,
+        height: 680,
+        resizable: false,
+        webPreferences: {
+          nodeIntegration: true,
+        },
+      },
+    });
+
+    mb.on('ready', () => {
+      console.log(11111);
+    });
+
+    return null;
+  })
+  .catch(console.log);
 
 app.on('activate', () => {
   showMainWindow();

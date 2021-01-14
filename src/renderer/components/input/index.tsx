@@ -65,6 +65,8 @@ class Input extends React.Component<Props> {
 
     if (initText) {
       quill.insertText(0, initText);
+      // 删除换行符
+      quill.deleteText(initText.length, 1);
     }
 
     this.quill = quill;
@@ -73,7 +75,8 @@ class Input extends React.Component<Props> {
   getText = () => {
     const length = this.quill?.getLength();
     const text = this.quill?.getText(0, length);
-    return text;
+    console.log(text);
+    return text?.replace(/^\\n$/g, '');
   };
 
   render() {

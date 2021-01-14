@@ -1,6 +1,6 @@
 import { createSlice, PayloadAction } from '@reduxjs/toolkit';
 
-interface BaseTask {
+export interface BaseTask {
   id: string;
   title: string;
   projectId: string;
@@ -8,7 +8,7 @@ interface BaseTask {
   deleted: boolean;
   date?: number;
   tags?: string[];
-  content?: string;
+  content?: any;
 }
 
 export interface TaskState {
@@ -25,7 +25,7 @@ export interface TaskUpdatePayload {
   deleted?: boolean;
   date?: number;
   tags?: string[];
-  content?: string;
+  content?: any;
 }
 
 const initialState: TaskState = {

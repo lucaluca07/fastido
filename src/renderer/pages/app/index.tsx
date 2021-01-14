@@ -1,17 +1,19 @@
 import React from 'react';
 import { HashRouter as Router } from 'react-router-dom';
-import Layout, { Content, Sider } from '@/components/layout';
+import { Layout } from 'antd';
 import HomeSider from './sider';
 import Main from './router';
+
+const { Sider, Content } = Layout;
 
 const Home = () => {
   return (
     <Router>
-      <Layout>
-        <Sider>
+      <Layout style={{ height: '100%' }}>
+        <Sider width={300}>
           <HomeSider />
         </Sider>
-        <Content>
+        <Content style={{ background: '#fff' }}>
           <Main />
         </Content>
       </Layout>

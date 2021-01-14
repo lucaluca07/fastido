@@ -6,7 +6,6 @@ import { merge } from 'webpack-merge';
 import { spawn, execSync } from 'child_process';
 import baseConfig from './webpack.config.base';
 import CheckNodeEnv from '../scripts/CheckNodeEnv';
-import HtmlWebpackPlugin from 'html-webpack-plugin'
 import ReactRefreshWebpackPlugin from '@pmmmwh/react-refresh-webpack-plugin';
 
 // When an ESLint server is running, we can't set the NODE_ENV so we'll check if it's
@@ -17,6 +16,26 @@ if (process.env.NODE_ENV === 'production') {
 
 const port = process.env.PORT || 1212;
 const publicPath = `http://localhost:${port}/dist`;
+const dllDir = path.join(__dirname, '../dll');
+const manifest = path.resolve(dllDir, 'renderer.json');
+const requiredByDLLConfig = module.parent.filename.includes(
+  'webpack.config.renderer.dev.dll'
+);
+
+/**
+ * Warn if the DLL is not built
+ */
+if (
+  !requiredByDLLConfig &&
+  !(fs.existsSync(dllDir) && fs.existsSync(manifest))
+) {
+  console.log(
+    chalk.black.bgYellow.bold(
+      'The DLL files are missing. Sit back while we build them for you with "yarn build:dll"'
+    )
+  );
+  execSync('yarn build:dll');
+}
 
 export default merge(baseConfig, {
   devtool: 'inline-source-map',
@@ -52,9 +71,7 @@ export default merge(baseConfig, {
           {
             loader: require.resolve('babel-loader'),
             options: {
-              plugins: [
-                require.resolve('react-refresh/babel'),
-              ].filter(Boolean),
+              plugins: [require.resolve('react-refresh/babel')].filter(Boolean),
             },
           },
         ],
@@ -116,9 +133,9 @@ export default merge(baseConfig, {
           {
             loader: 'style-loader',
           },
-          // {
-          //   loader: '@teamsupercell/typings-for-css-modules-loader',
-          // },
+          {
+            loader: '@teamsupercell/typings-for-css-modules-loader',
+          },
           {
             loader: 'css-loader',
             options: {
@@ -153,6 +170,17 @@ export default merge(baseConfig, {
           options: {
             limit: 10000,
             mimetype: 'application/font-woff',
+          },
+        },
+      },
+      // OTF Font
+      {
+        test: /\.otf(\?v=\d+\.\d+\.\d+)?$/,
+        use: {
+          loader: 'url-loader',
+          options: {
+            limit: 10000,
+            mimetype: 'font/otf',
           },
         },
       },
@@ -191,6 +219,14 @@ export default merge(baseConfig, {
     ],
   },
   plugins: [
+    requiredByDLLConfig
+      ? null
+      : new webpack.DllReferencePlugin({
+          context: path.join(__dirname, '../dll'),
+          manifest: require(manifest),
+          sourceType: 'var',
+        }),
+
     new webpack.NoEmitOnErrorsPlugin(),
 
     /**
@@ -243,13 +279,13 @@ export default merge(baseConfig, {
     },
     before() {
       console.log('Starting Main Process...');
-        spawn('npm', ['run', 'start:main'], {
-          shell: true,
-          env: process.env,
-          stdio: 'inherit',
-        })
-          .on('close', (code) => process.exit(code))
-          .on('error', (spawnError) => console.error(spawnError));
+      spawn('npm', ['run', 'start:main'], {
+        shell: true,
+        env: process.env,
+        stdio: 'inherit',
+      })
+        .on('close', (code) => process.exit(code))
+        .on('error', (spawnError) => console.error(spawnError));
     },
   },
 });
